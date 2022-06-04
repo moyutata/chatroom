@@ -5,6 +5,12 @@ import (
 	"go_code/chatroom/clinet/processes"
 )
 
+var (
+	userId   int
+	userPwd  string
+	userName string
+)
+
 func main() {
 	//接收操作指令
 	var op int
@@ -28,6 +34,7 @@ func main() {
 			// loop = false
 		case 2:
 			fmt.Println("注册用户")
+			registerMenu()
 			loop = false
 		case 3:
 			fmt.Println("退出系统")
@@ -39,8 +46,6 @@ func main() {
 }
 
 func loginMenu() {
-	var userId int
-	var userPwd string
 
 	fmt.Print("请输入用户id: ")
 	fmt.Scanf("%d\n", &userId)
@@ -53,4 +58,18 @@ func loginMenu() {
 	//这里会重新调用
 	userp.Login(userId, userPwd)
 
+}
+
+func registerMenu() {
+
+	fmt.Print("请输入用户id: ")
+	fmt.Scanf("%d\n", &userId)
+	fmt.Print("请输入用户密码: ")
+	fmt.Scanf("%s\n", &userPwd)
+	fmt.Print("请输入用户昵称: ")
+	fmt.Scanf("%s\n", &userName)
+
+	userp := &processes.UserProcess{}
+
+	userp.Register(userId, userPwd, userName)
 }

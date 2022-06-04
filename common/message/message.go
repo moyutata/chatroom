@@ -1,9 +1,10 @@
 package message
 
 const (
-	LoginMesType    = "LoginMes"
-	LoginResMesType = "LoginResMes"
-	RegisterMesType = "RegisterMes"
+	LoginMesType       = "LoginMes"
+	LoginResMesType    = "LoginResMes"
+	RegisterMesType    = "RegisterMes"
+	RegisterResMesType = "RegisterResMes"
 )
 
 type Message struct {
@@ -25,7 +26,10 @@ type LoginResMes struct {
 }
 
 type RegisterMes struct {
-	UserId   int    `json:"userId"`   //用户id
-	UserPwd  string `json:"userPwd"`  //用户密码
-	UserName string `json:"userName"` //用户名
+	User User `json:"user"`
+}
+
+type RegisterResMes struct {
+	Code  int    `json:"code"`  //返回状态码 400表示该用户已被占用 200表示用户注册成功
+	Error string `json:"error"` //返回错误信息
 }
