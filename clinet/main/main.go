@@ -35,7 +35,7 @@ func main() {
 		case 2:
 			fmt.Println("注册用户")
 			registerMenu()
-			loop = false
+			// loop = false
 		case 3:
 			fmt.Println("退出系统")
 			loop = false

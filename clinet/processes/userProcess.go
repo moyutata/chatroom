@@ -121,7 +121,7 @@ func (userp *UserProcess) Register(userId int, userPwd, userName string) (err er
 	var registerMes message.RegisterMes
 	registerMes.User.UserId = userId
 	registerMes.User.UserPwd = userPwd
-	registerMes.User.UserName = userPwd
+	registerMes.User.UserName = userName
 
 	//4. 将registerMes序列化
 	data, err := json.Marshal(registerMes)
@@ -154,7 +154,7 @@ func (userp *UserProcess) Register(userId int, userPwd, userName string) (err er
 	mes, err = trans.ReadPkg() // mes 就是 registerMes
 
 	if err != nil {
-		fmt.Println("readPkg err", err)
+		fmt.Println("readPkg err=", err)
 		return
 	}
 
@@ -162,12 +162,9 @@ func (userp *UserProcess) Register(userId int, userPwd, userName string) (err er
 	var registerResMes message.RegisterResMes
 	err = json.Unmarshal([]byte(mes.Data), &registerMes)
 	if registerResMes.Code == 200 {
-		//启动一个协程保持和服务器端保持通讯
-		//如果服务器有数据推送给客户端，则接受并显示在客户端终端
-
 		fmt.Println("注册成功~")
 	} else {
-		// fmt.Println("错误代码:", registerResMes.Code)
+		fmt.Println("错误代码:", registerResMes.Code)
 		fmt.Println(registerResMes.Error)
 	}
 	return

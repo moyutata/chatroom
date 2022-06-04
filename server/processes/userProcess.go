@@ -14,6 +14,60 @@ type UserProcess struct {
 	Conn net.Conn
 }
 
+func (userp *UserProcess) ServerProcessRegister(mes *message.Message) (err error) {
+
+	var registerMes message.RegisterMes
+	err = json.Unmarshal([]byte(mes.Data), &registerMes)
+	if err != nil {
+		fmt.Println("json.Unmashal() err=", err)
+		return
+	}
+
+	//先声明一个resMes
+	var resMes message.Message
+	resMes.Type = message.RegisterResMesType
+
+	var registerResMes message.RegisterResMes
+
+	err = model.MyUserDao.Register(&registerMes.User)
+	if err != nil {
+		if err == model.ERROR_USER_EXISTS {
+			registerResMes.Code = 505
+			registerResMes.Error = model.ERROR_USER_EXISTS.Error()
+		} else {
+			registerResMes.Code = 504
+			registerResMes.Error = "Unknown Error!"
+		}
+	} else {
+		registerResMes.Code = 200
+	}
+
+	//3. 将loginResMes序列化
+	data, err := json.Marshal(registerResMes)
+	if err != nil {
+		fmt.Println("json.Marshal err=", err)
+		return
+	}
+	//4. 将data赋值给resMes
+	resMes.Data = string(data)
+
+	//5. 将resMes序列化
+	data, err = json.Marshal(resMes)
+	if err != nil {
+		fmt.Println("json.Marshal err=", err)
+		return
+	}
+
+	//6. 发送data
+	//使用了mvc模式, 先创建一个Transfer实例
+	trans := &utils.Transfer{
+		Conn: userp.Conn,
+	}
+	err = trans.WritePkg(data)
+	return
+
+}
+
 //编写一个函数ServerProcessLogin，专门处理登录请求
 func (userp *UserProcess) ServerProcessLogin(mes *message.Message) (err error) {
 	//1. 先从mes中取出mes.Data, 并直接反序列化成LoginMes

@@ -3,8 +3,13 @@ package model
 import (
 	"encoding/json"
 	"fmt"
+	"go_code/chatroom/common/message"
 
 	"github.com/garyburd/redigo/redis"
+)
+
+const (
+	USER_KEY = "users"
 )
 
 //服务器启动后，初始化一个userDao实例
@@ -67,6 +72,30 @@ func (userd *UserDao) Login(userId int, userPwd string) (user User, err error) {
 	if user.UserPwd != userPwd {
 		err = ERROR_PWD
 		return
+	}
+	return
+}
+
+func (userd *UserDao) Register(user *message.User) (err error) {
+	//1. 从redis连接池中取出一个连接
+	conn := userd.pool.Get()
+	defer conn.Close()
+	_, err = userd.getUserById(conn, user.UserId)
+	if err == nil {
+		err = ERROR_USER_EXISTS
+		return
+	}
+
+	//这时注册用户id不存在于数据库
+	data, err := json.Marshal(user)
+	if err != nil {
+		return
+	}
+
+	//存入数据库
+	_, err = conn.Do("HSET", USER_KEY, user.UserId, string(data))
+	if err != nil {
+		fmt.Println("保存注册用户错误~ err=", err)
 	}
 	return
 }

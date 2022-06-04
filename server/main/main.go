@@ -34,7 +34,7 @@ func init() {
 func main() {
 
 	//提示信息
-	fmt.Println("服务器ver alpha 1.3 在8889端口监听...")
+	fmt.Println("服务器ver alpha 1.4 在8889端口监听...")
 	listen, err := net.Listen("tcp", "localhost:8889")
 	if err != nil {
 		fmt.Println("net.Listen err=", err)
