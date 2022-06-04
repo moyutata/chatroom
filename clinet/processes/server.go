@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"go_code/chatroom/clinet/utils"
 	"net"
+	"os"
 )
 
 //显示登录成功后的界面
 func ShowMenu() {
 	var op int
-	var loop = true
 	fmt.Print("\n**********************xxxx登录成功**********************\n\n")
-	for loop {
+	for {
 		fmt.Println("-------------------欢迎使用多人聊天室-------------------")
 		fmt.Println("\t\t1. 显示在线用户列表")
 		fmt.Println("\t\t2. 发送消息")
@@ -29,7 +29,7 @@ func ShowMenu() {
 			fmt.Println("信息列表")
 		case 4:
 			fmt.Println("退出系统...")
-			loop = false
+			os.Exit(0)
 		default:
 			fmt.Println("你输入的选项不正确，请重新输入...")
 		}
