@@ -42,7 +42,7 @@ func (userp *UserProcess) ServerProcessRegister(mes *message.Message) (err error
 		registerResMes.Code = 200
 	}
 
-	//3. 将loginResMes序列化
+	//3. 将registerResMes序列化
 	data, err := json.Marshal(registerResMes)
 	if err != nil {
 		fmt.Println("json.Marshal err=", err)
