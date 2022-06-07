@@ -40,6 +40,7 @@ func (userp *UserProcess) ServerProcessRegister(mes *message.Message) (err error
 		}
 	} else {
 		registerResMes.Code = 200
+		fmt.Println("注册成功~")
 	}
 
 	//3. 将registerResMes序列化

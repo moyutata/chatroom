@@ -160,7 +160,7 @@ func (userp *UserProcess) Register(userId int, userPwd, userName string) (err er
 
 	//将mes 的data部分反序列化成LoginResMes
 	var registerResMes message.RegisterResMes
-	err = json.Unmarshal([]byte(mes.Data), &registerMes)
+	err = json.Unmarshal([]byte(mes.Data), &registerResMes)
 	if registerResMes.Code == 200 {
 		fmt.Println("注册成功~")
 	} else {
