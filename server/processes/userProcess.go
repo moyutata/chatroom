@@ -19,7 +19,7 @@ type UserProcess struct {
 //通知所有在线用户userId上线
 func (userp *UserProcess) NotifyOtherOnlineUser(userId int) {
 	//遍历onlineUsers, 发送
-	for id, up := range userp.onlineUsers {
+	for id, up := range userManager.onlineUsers {
 		if id == userId {
 			continue
 		}

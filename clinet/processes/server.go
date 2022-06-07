@@ -1,8 +1,10 @@
 package processes
 
 import (
+	"encoding/json"
 	"fmt"
 	"go_code/chatroom/clinet/utils"
+	"go_code/chatroom/common/message"
 	"net"
 	"os"
 )
@@ -22,7 +24,7 @@ func ShowMenu() {
 		fmt.Println("-------------------------------------------------------")
 		switch op {
 		case 1:
-			fmt.Println("显示在线用户列表")
+			showOnlineUser()
 		case 2:
 			fmt.Println("发送消息")
 		case 3:
@@ -50,6 +52,21 @@ func ServerProcessMes(Conn net.Conn) (err error) {
 			fmt.Println("trans.ReadPkg() err=", err)
 			return err
 		}
-		fmt.Printf("mes=%v\n", mes)
+		// fmt.Printf("mes=%v\n", mes)
+
+		switch mes.Type {
+		case message.NotifyUserStatusMesType:
+			//处理
+			//1. 取出NotifyUserStatusMes
+			var notifyUserStatusMes message.NotifyUserStatusMes
+			err = json.Unmarshal([]byte(mes.Data), &notifyUserStatusMes)
+			if err != nil {
+				fmt.Println("json.Unmarshal err=", err)
+			}
+			//2. 把用户的状态保存到客户端map
+			updateUserStatus(&notifyUserStatusMes)
+		default:
+			fmt.Println("Unknown Type!")
+		}
 	}
 }
