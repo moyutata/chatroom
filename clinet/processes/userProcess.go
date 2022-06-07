@@ -95,6 +95,9 @@ func (userp *UserProcess) Login(userId int, userPwd string) (err error) {
 		//此时显示当前在线用户列表
 		fmt.Println("当前在线用户列表: ")
 		for _, v := range loginResMes.Users {
+			if v == userId {
+				continue
+			}
 			fmt.Println("用户id:\t", v)
 		}
 		fmt.Print("\n\n")
