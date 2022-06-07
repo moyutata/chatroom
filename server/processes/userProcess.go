@@ -102,6 +102,15 @@ func (userp *UserProcess) ServerProcessLogin(mes *message.Message) (err error) {
 		}
 	} else {
 		loginResMes.Code = 200
+		//此时用户登录成功，将登录成功的用户放入到userManager中
+		//将登录成功的userId存入到userp
+		userp.UserId = loginMes.UserId
+		userManager.AddOnlineUser(userp)
+		//将当前在线用户的id放入loginResMes中
+		for id := range userManager.onlineUsers {
+			loginResMes.Users = append(loginResMes.Users, id)
+		}
+
 		fmt.Println(user.UserName, "登录成功")
 	}
 

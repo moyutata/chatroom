@@ -92,6 +92,13 @@ func (userp *UserProcess) Login(userId int, userPwd string) (err error) {
 		//启动一个协程保持和服务器端保持通讯
 		//如果服务器有数据推送给客户端，则接受并显示在客户端终端
 
+		//此时显示当前在线用户列表
+		fmt.Println("当前在线用户列表: ")
+		for _, v := range loginResMes.Users {
+			fmt.Println("用户id:\t", v)
+		}
+		fmt.Print("\n\n")
+
 		go ServerProcessMes(conn)
 		//1. 显示登录成功后的菜单
 		ShowMenu()
