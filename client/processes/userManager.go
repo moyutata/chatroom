@@ -2,12 +2,16 @@ package processes
 
 import (
 	"fmt"
+	"go_code/chatroom/client/model"
 	"go_code/chatroom/common/message"
 )
 
 //客户端维护的map
 
 var onlineUsers map[int]*message.User = make(map[int]*message.User, 1024)
+
+//用户登录成功后对CurrentUser初始化
+var CurrentUser model.CurrentUser
 
 //客户端显示当前在线
 func showOnlineUser() {

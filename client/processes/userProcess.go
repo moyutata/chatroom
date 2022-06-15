@@ -4,7 +4,7 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
-	"go_code/chatroom/clinet/utils"
+	"go_code/chatroom/client/utils"
 	"go_code/chatroom/common/message"
 	"net"
 )
@@ -62,7 +62,7 @@ func (userp *UserProcess) Login(userId int, userPwd string) (err error) {
 		return
 	}
 
-	fmt.Printf("clinet send mes len=%d data=%s\n", len(data), data)
+	fmt.Printf("client send mes len=%d data=%s\n", len(data), data)
 
 	//发送消息本身
 	_, err = conn.Write(data)
@@ -89,6 +89,11 @@ func (userp *UserProcess) Login(userId int, userPwd string) (err error) {
 	var loginResMes message.LoginResMes
 	err = json.Unmarshal([]byte(mes.Data), &loginResMes)
 	if loginResMes.Code == 200 {
+		//初始化CurrentUser
+		CurrentUser.Conn = conn
+		CurrentUser.UserId = userId
+		CurrentUser.UserStatus = message.UserOnline
+
 		//启动一个协程保持和服务器端保持通讯
 		//如果服务器有数据推送给客户端，则接受并显示在客户端终端
 

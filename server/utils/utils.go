@@ -18,7 +18,7 @@ type Transfer struct {
 func (trans *Transfer) ReadPkg() (mes message.Message, err error) {
 
 	// buf := make([]byte, 4096)
-	fmt.Println("reading message from clinet...")
+	fmt.Println("reading message from client...")
 
 	//conn.Read 在conn没有被关闭的情况下，才会阻塞
 	//如果客户端关闭了conn，则不会阻塞

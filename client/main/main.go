@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"go_code/chatroom/clinet/processes"
+	"go_code/chatroom/client/processes"
 )
 
 var (

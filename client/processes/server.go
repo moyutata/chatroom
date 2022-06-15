@@ -3,7 +3,7 @@ package processes
 import (
 	"encoding/json"
 	"fmt"
-	"go_code/chatroom/clinet/utils"
+	"go_code/chatroom/client/utils"
 	"go_code/chatroom/common/message"
 	"net"
 	"os"
@@ -22,11 +22,14 @@ func ShowMenu() {
 		fmt.Print("\t\t请选择(1-4): ")
 		fmt.Scanf("%d\n", &op)
 		fmt.Println("-------------------------------------------------------")
+
+		//smsProcess会被经常使用
+		smsProcess := &SmsProcess{}
 		switch op {
 		case 1:
 			showOnlineUser()
 		case 2:
-			fmt.Println("发送消息")
+			sendMes(smsProcess)
 		case 3:
 			fmt.Println("信息列表")
 		case 4:
@@ -69,4 +72,12 @@ func ServerProcessMes(Conn net.Conn) (err error) {
 			fmt.Println("Unknown Type!")
 		}
 	}
+}
+
+func sendMes(sp *SmsProcess) {
+	var content string
+	fmt.Println("-------------------欢迎使用多人聊天室-------------------")
+	fmt.Println("请输入聊天信息:")
+	fmt.Scanf("%s\n", &content)
+	sp.SendGroupMes(content)
 }
