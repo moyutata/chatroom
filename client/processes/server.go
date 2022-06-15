@@ -68,6 +68,8 @@ func ServerProcessMes(Conn net.Conn) (err error) {
 			}
 			//2. 把用户的状态保存到客户端map
 			updateUserStatus(&notifyUserStatusMes)
+		case message.SmsResMesType:
+			outputGroupMes(&mes)
 		default:
 			fmt.Println("Unknown Type!")
 		}

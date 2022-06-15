@@ -7,6 +7,7 @@ const (
 	RegisterResMesType      = "RegisterResMes"
 	NotifyUserStatusMesType = "NotifyUserStatusMes"
 	SmsMesType              = "SmsMes"
+	SmsResMesType           = "SmsResMes"
 )
 
 //用户状态的常量
@@ -53,4 +54,9 @@ type NotifyUserStatusMes struct {
 type SmsMes struct {
 	Content string `json:"content"`
 	User           //匿名结构体
+}
+
+type SmsResMes struct {
+	User    User   `json:"user"`
+	Content string `json:"content"`
 }
