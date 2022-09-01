@@ -1,2 +1,2 @@
 # chatroom
-Simple Go chatroom based in TCP
+一个基于TCP/IP的简易聊天室
